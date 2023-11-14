@@ -1,0 +1,11 @@
+{
+  "version": 2,
+  "dgSpecHash": "topeW5aEL9Jf35s9p6Vjr/a1e7PDzUpCxT46U3EqtUFcLc2381LYgr/AZcbq/QhRuCuvAkDq6plnGnHM/QqS8A==",
+  "success": true,
+  "projectFilePath": "C:\\Users\\david\\Desktop\\folders\\UniversityThirdYear\\VR\\Volumetric-Rendering\\Volumetric-Rendering.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\david\\.nuget\\packages\\microsoft.win32.systemevents\\7.0.0\\microsoft.win32.systemevents.7.0.0.nupkg.sha512",
+    "C:\\Users\\david\\.nuget\\packages\\system.drawing.common\\7.0.0\\system.drawing.common.7.0.0.nupkg.sha512"
+  ],
+  "logs": []
+}

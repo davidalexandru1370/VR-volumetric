@@ -69,7 +69,7 @@ public class RawCtMask : Geometry
     {
         // ADD CODE HERE
         double step = _thickness[0] * _scale;
-        //double step = 10d;
+        //double step = 5d;
 
         double alpha = 1.0d;
         var epsilon = 0.01d;
@@ -209,7 +209,7 @@ public class RawCtMask : Geometry
         double z0 = Value(idx[0], idx[1], idx[2] - 1);
         double z1 = Value(idx[0], idx[1], idx[2] + 1);
 
-        return new Vector(x1 - x0, y1 - y0, z1 - z0).Normalize();
+        return new Vector(x0 - x1, y0 - y1, z0 - z1).Normalize();
     }
 
     private Color BlendColors(Color color1, Color color2)

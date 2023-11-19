@@ -74,15 +74,21 @@ public class RawCtMask : Geometry
         double alpha = 1.0d;
         var epsilon = 0.01d;
         var resultColor = new Color();
-        var facesIntersected = _boundingEllipsoid.GetAllIntersections(line);
+        var facesIntersected = this.GetBoundingBox(line);
 
         if (facesIntersected.Count == 0)
         {
             return Intersection.NONE;
         }
 
-        var entryBoundingBox = facesIntersected.Min(i => i.T);
-        var exitBoundingBox = facesIntersected.Max(i => i.T);
+        if(facesIntersected.All(x => x.Valid == false))
+        {
+            return Intersection.NONE;
+        }
+
+
+        var entryBoundingBox = facesIntersected.Where(i => i.Visible && i.T < Double.PositiveInfinity).Min(i => i.T);
+        var exitBoundingBox = facesIntersected.Where(i => i.Visible && i.T < double.PositiveInfinity).Max(i => i.T);
 
         var start = Math.Max(entryBoundingBox, minDist);
         var stop = Math.Min(exitBoundingBox, maxDist);

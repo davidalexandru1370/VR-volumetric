@@ -65,10 +65,10 @@ public class RawCtMask : Geometry
     {
         // ADD CODE HERE
         //double maxSamplingDistance = 1000;
-        double step = 2;
+        double step = 1;
         //double step = _thickness[0] * _scale;
 
-        double transparency = 1.0f;
+        double alpha = 1.0f;
         var epsilon = 0.01;
         bool nothing = true;
         var resultColor = Color.NONE;
@@ -82,9 +82,8 @@ public class RawCtMask : Geometry
         var entryBoundingBox = facesIntersected.Where(i => i.Visible == true && i.T < Double.PositiveInfinity).Min(i => i.T);
         var exitBoundingBox = facesIntersected.Where(i => i.Visible == true && i.T < Double.PositiveInfinity).Max(i => i.T);
 
-        var start = entryBoundingBox;
-        var stop = exitBoundingBox;
-
+        var start = Math.Max(entryBoundingBox, minDist);
+        var stop = Math.Min(exitBoundingBox, maxDist);
         //Console.WriteLine($"entry = {start} stop = {stop}"); 
         double tt = 0;
         while (start < stop)
@@ -92,28 +91,26 @@ public class RawCtMask : Geometry
             var position = line.CoordinateToPosition(start);
 
             var color = GetColor(position);
-            color += color * transparency * color.Alpha;
-
-            if (nothing == true && color.Alpha > epsilon)
-            {
-                nothing = false;
-            }
-            else
-            {
-                nothing = true;
-            }
+            color += color * alpha * color.Alpha;
 
             var indexes = GetIndexes(position);
             var value = Value(indexes[0], indexes[1], indexes[2]);
 
-            if (value > 0 && nothing == false)
+            if (value > 0)
             {
                 if(tt == 0)
                 {
                     tt = start;
                 }
-                var blendedColors = BlendColors(color, resultColor);
+               
                 // return new Intersection(true, true, this, line, start, GetNormal(position), Material, color);
+            }
+
+            resultColor += color * alpha * color.Alpha;
+            alpha *= (1 - color.Alpha);
+            if (alpha <= epsilon)
+            {
+                break;
             }
 
             start += step;

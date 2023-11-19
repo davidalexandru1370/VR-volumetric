@@ -65,8 +65,9 @@ public class RawCtMask : Geometry
     {
         // ADD CODE HERE
         //double maxSamplingDistance = 1000;
-        double step = _thickness[0] * _scale;
-        double currentFactor = minDist;
+        double step = 1;
+        //double step = _thickness[0] * _scale;
+
 
         double transparency = 1.0f;
 
@@ -85,7 +86,7 @@ public class RawCtMask : Geometry
 
         while (start < stop)
         {
-            var position = line.CoordinateToPosition(stop);
+            var position = line.CoordinateToPosition(start);
             var indexes = GetIndexes(position);
             var value = Value(indexes[0], indexes[1], indexes[2]);
 
@@ -93,7 +94,7 @@ public class RawCtMask : Geometry
             {
                 var color = GetColor(position);
                 color += color * transparency * color.Alpha;
-                return new Intersection(true, true, this, line, currentFactor, GetNormal(position), Material, color);
+                return new Intersection(true, true, this, line, start, GetNormal(position), Material, color);
             }
 
             start += step;

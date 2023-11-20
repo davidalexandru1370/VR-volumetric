@@ -49,16 +49,16 @@ namespace rt
 
             Line lineStartingFromLightPoint = new Line(light.Position, point);
             var directionVector = light.Position - point;
-            //Intersection intersection = FindFirstIntersection(lineStartingFromLightPoit, 0, directionVector.Length() - epsilon);
+            //Intersection intersection = FindFirstIntersection(lineStartingFromLightPoint, 0, directionVector.Length() - epsilon);
 
             foreach (var geometry in _geometries)
             {
-                if (geometry.GetType() == typeof(RawCtMask))
+                if (geometry is RawCtMask)
                 {
                     continue;
                 }
 
-                var intersection = geometry.GetIntersection(lineStartingFromLightPoint, epsilon, directionVector.Length());
+                var intersection = geometry.GetIntersection(lineStartingFromLightPoint, epsilon, directionVector.Length(), true);
 
                 if (intersection.Visible)
                 {
@@ -85,19 +85,20 @@ namespace rt
             //    return true;
             //}
 
-            return false;
+            //return false;
         }
 
         public void Render(Camera camera, int width, int height, string filename)
         {
             var background = new Color(0.2, 0.2, 0.2, 1.0);
-
+            var frame = filename.Split('.').Reverse().ElementAt(1);
             var image = new Image(width, height);
 
             for (var i = 0; i < width; i++)
             {
                 for (var j = 0; j < height; j++)
                 {
+                    //Console.WriteLine($"Completed {(i * width + j * height * 1.0d) / (width * height * 1.0d) * 100.0d}% from frame {frame}");
                     // TODO: ADD CODE HERE
                     var pointOnView = camera.Position + camera.Direction * camera.ViewPlaneDistance +
                                      (camera.Up ^ camera.Direction) * ImageToViewPlane(i, width, camera.ViewPlaneWidth) +

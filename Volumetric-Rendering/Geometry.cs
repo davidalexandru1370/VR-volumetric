@@ -16,6 +16,6 @@
             Color = color;
         }
 
-        public abstract Intersection GetIntersection(Line line, double minDist, double maxDist);
+        public abstract Intersection GetIntersection(Line line, double minDist, double maxDist, bool stopAtFirstIntersection = false);
     }
 }

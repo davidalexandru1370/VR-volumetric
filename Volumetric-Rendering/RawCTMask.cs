@@ -1,4 +1,5 @@
-﻿using System.Text.RegularExpressions;
+﻿using System.Globalization;
+using System.Text.RegularExpressions;
 
 namespace rt;
 
@@ -64,7 +65,7 @@ public class RawCtMask : Geometry
         return _data[z * _resolution[1] * _resolution[0] + y * _resolution[0] + x];
     }
 
-    public override Intersection GetIntersection(Line line, double minDist, double maxDist)
+    public override Intersection GetIntersection(Line line, double minDist, double maxDist, bool stopAtFirstIntersection = false)
     {
         // ADD CODE HERE
         //double maxSamplingDistance = 1000;
@@ -87,8 +88,9 @@ public class RawCtMask : Geometry
         var start = Math.Max(entryBoundingBox, minDist);
         var stop = Math.Min(exitBoundingBox, maxDist);
         bool found = false;
-        //Console.WriteLine($"start = {start} stop = {stop}");
+        Console.WriteLine($"[{DateTime.Now.ToString(new CultureInfo("ro-RO"))}] start = {start} stop = {stop}");
         double tt = start;
+
         while (start <= stop)
         {
             var position = line.CoordinateToPosition(start);
@@ -102,21 +104,23 @@ public class RawCtMask : Geometry
                 continue;
             }
 
-
             if (found == false)
             {
                 found = true;
                 tt = start;
+                if(stopAtFirstIntersection == true)
+                {
+                    return new Intersection(found, found, this, line, tt, GetNormal(line.CoordinateToPosition(tt)), Material.FromColor(color), color);
+                }
             }
-            // return new Intersection(true, true, this, line, start, GetNormal(position), Material, color);
 
-
-            resultColor += color * alpha * color.Alpha;
-            alpha *= (1 - color.Alpha);
+            resultColor += color * color.Alpha * alpha;
+            alpha *= 1 - color.Alpha;
             if (alpha <= epsilon)
             {
                 break;
             }
+
             start += step;
         }
 

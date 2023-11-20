@@ -24,7 +24,7 @@ namespace rt
             Radius = radius;
         }
 
-        public override Intersection GetIntersection(Line line, double minDist, double maxDist)
+        public override Intersection GetIntersection(Line line, double minDist, double maxDist, bool stopAtFirstIntersection = false)
         {
             double semiAxesXSquared = SemiAxesLength.X * SemiAxesLength.X;
             double semiAxesYSquared = SemiAxesLength.Y * SemiAxesLength.Y;

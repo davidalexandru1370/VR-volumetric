@@ -111,7 +111,7 @@ namespace rt
                         var lightningColor = new Color();
                         foreach (var light in _lights)
                         {
-                            lightningColor += intersection.Geometry.Material.Ambient * light.Ambient;
+                            lightningColor += intersection.Material.Ambient * light.Ambient;
 
                             if (IsLit(intersection.Position, light))
                             {
@@ -122,13 +122,13 @@ namespace rt
 
                                 if (normal * vectorFromLight > 0)
                                 {
-                                    lightningColor += intersection.Geometry.Material.Diffuse * light.Diffuse * (normal * vectorFromLight);
+                                    lightningColor += intersection.Material.Diffuse * light.Diffuse * (normal * vectorFromLight);
                                 }
 
                                 if (cameraVector * reflectionVector > 0)
                                 {
-                                    lightningColor += intersection.Geometry.Material.Specular * light.Specular *
-                                        Math.Pow(cameraVector * reflectionVector, intersection.Geometry.Material.Shininess);
+                                    lightningColor += intersection.Material.Specular * light.Specular *
+                                        Math.Pow(cameraVector * reflectionVector, intersection.Material.Shininess);
                                 }
 
                                 lightningColor *= light.Intensity;

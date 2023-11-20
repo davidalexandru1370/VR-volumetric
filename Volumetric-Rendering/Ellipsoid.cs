@@ -96,6 +96,11 @@ namespace rt
 
         private Tuple<double, double> ComputeSolutionsForSecondDegreeEquation(double delta, double a, double b)
         {
+            if(a <= 1e-10)
+            {
+                a = 1;
+            }
+
             double t1 = (-b - Math.Sqrt(delta)) / ((double)2.0 * a);
             double t2 = (-b + Math.Sqrt(delta)) / ((double)2.0 * a);
 
@@ -144,7 +149,7 @@ namespace rt
 
             Vector normal = new();
 
-            if (delta <= epsilon)
+            if (delta < epsilon)
             {
                 //intersections.Add(new Intersection(false, false, this, line, 0, null, Material, Color));
                 return intersections;

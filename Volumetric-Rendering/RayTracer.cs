@@ -47,7 +47,7 @@ namespace rt
             // TODO: ADD CODE HERE
             double epsilon = 0.001;
 
-            Line lineStartingFromLightPoint = new Line(light.Position, point);
+            Line lineStartingFromLightPoint = new Line(point, light.Position);
             var directionVector = light.Position - point;
             //Intersection intersection = FindFirstIntersection(lineStartingFromLightPoint, 0, directionVector.Length() - epsilon);
 
@@ -113,7 +113,7 @@ namespace rt
                         {
                             lightningColor += intersection.Geometry.Material.Ambient * light.Ambient;
 
-                            if (intersection.GetType() != typeof(RawCtMask) && IsLit(intersection.Position, light))
+                            if (IsLit(intersection.Position, light))
                             {
                                 var normal = intersection.Normal;
                                 var cameraVector = (camera.Position - intersection.Position).Normalize();

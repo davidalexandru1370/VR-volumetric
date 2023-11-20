@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\david\\Desktop\\folders\\UniversityThirdYear\\VR\\Volumetric-Rendering\\Volumetric-Rendering.csproj": {}
+    "C:\\Users\\david\\Desktop\\folders\\VR-volumetric\\Volumetric-Rendering\\Volumetric-Rendering.csproj": {}
   },
   "projects": {
-    "C:\\Users\\david\\Desktop\\folders\\UniversityThirdYear\\VR\\Volumetric-Rendering\\Volumetric-Rendering.csproj": {
+    "C:\\Users\\david\\Desktop\\folders\\VR-volumetric\\Volumetric-Rendering\\Volumetric-Rendering.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\david\\Desktop\\folders\\UniversityThirdYear\\VR\\Volumetric-Rendering\\Volumetric-Rendering.csproj",
+        "projectUniqueName": "C:\\Users\\david\\Desktop\\folders\\VR-volumetric\\Volumetric-Rendering\\Volumetric-Rendering.csproj",
         "projectName": "Volumetric-Rendering",
-        "projectPath": "C:\\Users\\david\\Desktop\\folders\\UniversityThirdYear\\VR\\Volumetric-Rendering\\Volumetric-Rendering.csproj",
+        "projectPath": "C:\\Users\\david\\Desktop\\folders\\VR-volumetric\\Volumetric-Rendering\\Volumetric-Rendering.csproj",
         "packagesPath": "C:\\Users\\david\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\david\\Desktop\\folders\\UniversityThirdYear\\VR\\Volumetric-Rendering\\obj\\",
+        "outputPath": "C:\\Users\\david\\Desktop\\folders\\VR-volumetric\\Volumetric-Rendering\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"

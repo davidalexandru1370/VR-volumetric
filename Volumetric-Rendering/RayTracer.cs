@@ -24,6 +24,7 @@ namespace rt
 
             foreach (var geometry in _geometries)
             {
+
                 var intr = geometry.GetIntersection(ray, minDist, maxDist);
 
                 if (!intr.Valid || !intr.Visible) continue;
@@ -48,24 +49,41 @@ namespace rt
 
             Line lineStartingFromLightPoint = new Line(light.Position, point);
             var directionVector = light.Position - point;
-            Intersection intersection = FindFirstIntersection(lineStartingFromLightPoint, 0, directionVector.Length() - epsilon);
+            //Intersection intersection = FindFirstIntersection(lineStartingFromLightPoit, 0, directionVector.Length() - epsilon);
 
-            if(intersection.GetType() == typeof(RawCtMask))
+            foreach (var geometry in _geometries)
             {
-                return false;
+                if (geometry.GetType() == typeof(RawCtMask))
+                {
+                    continue;
+                }
+
+                var intersection = geometry.GetIntersection(lineStartingFromLightPoint, epsilon, directionVector.Length());
+
+                if (intersection.Visible)
+                {
+                    return false;
+                }
             }
 
-            if (!intersection.Valid || !intersection.Visible)
-            {
-                return true;
-            }
+            return true;
 
-            var difference = intersection.T - (light.Position - point).Length();
-            //-epsilon < difference < epsilon
-            if (-epsilon < difference && difference < epsilon)
-            {
-                return true;
-            }
+            //if (intersection.GetType() == typeof(RawCtMask))
+            //{
+            //    return false;
+            //}
+
+            //if (!intersection.Valid || !intersection.Visible)
+            //{
+            //    return true;
+            //}
+
+            //var difference = intersection.T - (light.Position - point).Length();
+            ////-epsilon < difference < epsilon
+            //if (-epsilon < difference && difference < epsilon)
+            //{
+            //    return true;
+            //}
 
             return false;
         }

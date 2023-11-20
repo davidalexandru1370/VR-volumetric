@@ -69,15 +69,15 @@ namespace rt
             const int n = 90;
             const double step = 360.0 / n;
             
-            var tasks = new Task[n];
+           // var tasks = new Task[n];
             for (var i = 0; i < n; i++)
             {
                 var ind = new[]{i};
-                tasks[i] = Task.Run(() =>
-                {
+                //tasks[i] = Task.Run(() =>
+                //{
                     if(ind[0] < 20)
                     {
-                        return;
+                        continue;
                     }
 
                     var k = ind[0];
@@ -102,10 +102,10 @@ namespace rt
             
                     rt.Render(camera, width, height, filename);
                     Console.WriteLine($"Frame {k+1}/{n} completed");
-                });
+                //});
             }
             
-            Task.WaitAll(tasks);
+            //Task.WaitAll(tasks);
         }
     }
 }

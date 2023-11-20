@@ -14,7 +14,7 @@ public class RawCtMask : Geometry
     //cubul este definit de v0 v1
     private readonly Vector _v0;
     private readonly Vector _v1;
-
+    private readonly Ellipsoid _boundingEllipsoid;
     public RawCtMask(string datFile, string rawFile, Vector position, double scale, ColorMap colorMap) : base(Color.NONE)
     {
         _position = position;
@@ -40,7 +40,10 @@ public class RawCtMask : Geometry
         }
 
         _v0 = position;
-        _v1 = position + new Vector(_resolution[0] * _thickness[0] * scale, _resolution[1] * _thickness[1] * scale, _resolution[2] * _thickness[2] * scale);
+        var diameter = new Vector(_resolution[0] * _thickness[0] * scale, _resolution[1] * _thickness[1] * scale, _resolution[2] * _thickness[2] * scale);
+        _v1 = position + diameter;
+        var center = diameter / 2;
+        _boundingEllipsoid = new Ellipsoid(_v0 + center, diameter, 1, Color.NONE);
 
         var len = _resolution[0] * _resolution[1] * _resolution[2];
         _data = new byte[len];
@@ -65,44 +68,35 @@ public class RawCtMask : Geometry
     {
         // ADD CODE HERE
         //double maxSamplingDistance = 1000;
-        double step = 1;
-        //double step = _thickness[0] * _scale;
+        //uble step = 0.2f;
+        double step = 5;
 
         double alpha = 1.0f;
         var epsilon = 0.01;
-        bool nothing = true;
         var resultColor = Color.NONE;
-        var facesIntersected = GetBoundingBox(line);
-
-        if (facesIntersected.All(i => i.Visible == false))
-        {
-            return Intersection.NONE;
-        }
+        var facesIntersected = _boundingEllipsoid.GetAllIntersections(line);
 
         var entryBoundingBox = facesIntersected.Where(i => i.Visible == true && i.T < Double.PositiveInfinity).Min(i => i.T);
         var exitBoundingBox = facesIntersected.Where(i => i.Visible == true && i.T < Double.PositiveInfinity).Max(i => i.T);
 
         var start = Math.Max(entryBoundingBox, minDist);
         var stop = Math.Min(exitBoundingBox, maxDist);
-        //Console.WriteLine($"entry = {start} stop = {stop}"); 
+        //Console.WriteLine($"start = {start} stop = {stop}");
         double tt = 0;
-        while (start < stop)
+        while (start <= stop)
         {
             var position = line.CoordinateToPosition(start);
 
             var color = GetColor(position);
-            color += color * alpha * color.Alpha;
 
             var indexes = GetIndexes(position);
-            var value = Value(indexes[0], indexes[1], indexes[2]);
 
-            if (value > 0)
+            if (color.Alpha > 0)
             {
                 if(tt == 0)
                 {
                     tt = start;
                 }
-               
                 // return new Intersection(true, true, this, line, start, GetNormal(position), Material, color);
             }
 
@@ -112,7 +106,6 @@ public class RawCtMask : Geometry
             {
                 break;
             }
-
             start += step;
         }
 
